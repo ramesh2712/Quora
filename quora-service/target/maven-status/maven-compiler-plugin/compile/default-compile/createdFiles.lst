@@ -1,4 +1,5 @@
 com/upgrad/quora/service/common/GenericErrorCode.class
+com/upgrad/quora/service/entity/UserEntity.class
 com/upgrad/quora/service/ServiceConfiguration.class
 com/upgrad/quora/service/business/JwtTokenProvider.class
 com/upgrad/quora/service/common/UnexpectedException.class
