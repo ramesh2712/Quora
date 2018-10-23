@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 
 
-
     @RequestMapping(method = RequestMethod.POST, path = "/user/signup" , consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<SignupUserResponse> signup(final SignupUserRequest signupUserRequest) {
 

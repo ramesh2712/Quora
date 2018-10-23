@@ -20,22 +20,23 @@ public class UserEntity {
 
     @Column(name = "UUID")
     @Size(max = 200)
+    @NotNull
     private String uuid;
 
     @Column(name = "FIRSTNAME")
     @NotNull
     @Size(max = 30)
-    private String firstname;
+    private String firstName;
 
     @Column(name = "LASTNAME")
     @NotNull
     @Size(max = 30)
-    private String lastname;
+    private String lastName;
 
     @Column(name = "USERNAME")
     @NotNull
     @Size(max = 30)
-    private String username;
+    private String userName;
 
     @Column(name = "EMAIL")
     @NotNull
@@ -44,6 +45,7 @@ public class UserEntity {
 
     //@ToStringExclude
     @Column(name = "PASSWORD")
+
     private String password;
 
     //@ToStringExclude
@@ -58,7 +60,7 @@ public class UserEntity {
 
     @Column(name = "ABOUTME")
     @Size(max = 50)
-    private String aboutme;
+    private String aboutMe;
 
     @Column(name = "DOB")
     @Size(max = 30)
@@ -70,7 +72,7 @@ public class UserEntity {
 
     @Column(name = "CONTACTNUMBER")
     @Size(max = 30)
-    private String contactnumber;
+    private String contactNumber;
 
 
     // Getter and Setter methods ...
@@ -91,28 +93,44 @@ public class UserEntity {
         this.uuid = uuid;
     }
 
-    public String getFirstname() {
-        return firstname;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public String getLastname() {
-        return lastname;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
-    public String getUsername() {
-        return username;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getAboutMe() {
+        return aboutMe;
+    }
+
+    public void setAboutMe(String aboutMe) {
+        this.aboutMe = aboutMe;
+    }
+
+    public String getContactNumber() {
+        return contactNumber;
+    }
+
+    public void setContactNumber(String contactNumber) {
+        this.contactNumber = contactNumber;
     }
 
     public String getEmail() {
@@ -147,14 +165,6 @@ public class UserEntity {
         this.country = country;
     }
 
-    public String getAboutme() {
-        return aboutme;
-    }
-
-    public void setAboutme(String aboutme) {
-        this.aboutme = aboutme;
-    }
-
     public String getDob() {
         return dob;
     }
@@ -169,14 +179,6 @@ public class UserEntity {
 
     public void setRole(String role) {
         this.role = role;
-    }
-
-    public String getContactnumber() {
-        return contactnumber;
-    }
-
-    public void setContactnumber(String contactnumber) {
-        this.contactnumber = contactnumber;
     }
 
     @Override
