@@ -45,7 +45,7 @@ public class UserEntity {
 
     //@ToStringExclude
     @Column(name = "PASSWORD")
-
+    @NotNull
     private String password;
 
     //@ToStringExclude

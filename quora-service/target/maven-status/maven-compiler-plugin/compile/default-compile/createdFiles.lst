@@ -12,3 +12,4 @@ com/upgrad/quora/service/business/PasswordCryptographyProvider.class
 com/upgrad/quora/service/exception/SignUpRestrictedException.class
 com/upgrad/quora/service/exception/UserNotFoundException.class
 com/upgrad/quora/service/exception/AuthenticationFailedException.class
+com/upgrad/quora/service/entity/UserAuthEntity.class
