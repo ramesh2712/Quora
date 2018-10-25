@@ -8,6 +8,8 @@
 /Users/ramesh/Desktop/Trello_quora 2/quora-service/src/main/java/com/upgrad/quora/service/common/GenericErrorCode.java
 /Users/ramesh/Desktop/Trello_quora 2/quora-service/src/main/java/com/upgrad/quora/service/business/SignoutBusinessService.java
 /Users/ramesh/Desktop/Trello_quora 2/quora-service/src/main/java/com/upgrad/quora/service/entity/UserEntity.java
+/Users/ramesh/Desktop/Trello_quora 2/quora-service/src/main/java/com/upgrad/quora/service/entity/QuestionEntity.java
+/Users/ramesh/Desktop/Trello_quora 2/quora-service/src/main/java/com/upgrad/quora/service/entity/AnswerEntity.java
 /Users/ramesh/Desktop/Trello_quora 2/quora-service/src/main/java/com/upgrad/quora/service/common/UnexpectedException.java
 /Users/ramesh/Desktop/Trello_quora 2/quora-service/src/main/java/com/upgrad/quora/service/entity/UserAuthEntity.java
 /Users/ramesh/Desktop/Trello_quora 2/quora-service/src/main/java/com/upgrad/quora/service/business/AuthenticateService.java
