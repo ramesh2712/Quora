@@ -24,7 +24,7 @@ public class AuthenticateService {
     @Transactional(propagation = Propagation.REQUIRED)
     public UserAuthEntity authenticate(final String username , final String password) throws AuthenticationFailedException {
 
-        UserEntity userEntity = userDao.getUserByEmail(username);
+        UserEntity userEntity = userDao.getUserByUserName(username);
         if (userEntity == null) {
 
             throw new AuthenticationFailedException("ATH-001" , "This username does not exist");
