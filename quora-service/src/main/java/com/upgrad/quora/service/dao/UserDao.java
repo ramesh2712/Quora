@@ -54,4 +54,14 @@ public class UserDao {
     public void updateUser(final UserAuthEntity updateUserAuthEntity){
         entityManager.merge(updateUserAuthEntity);
     }
+
+    public UserEntity getUserByUuid(final String userUuid) {
+
+        try {
+            return entityManager.createNamedQuery("userByUuid", UserEntity.class).setParameter("uuid", userUuid)
+                    .getSingleResult();
+        } catch (NoResultException nre) {
+            return null;
+        }
+    }
 }
