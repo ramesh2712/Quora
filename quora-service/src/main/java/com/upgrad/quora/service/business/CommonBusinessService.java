@@ -36,4 +36,5 @@ public class CommonBusinessService {
         }
         throw new AuthorizationFailedException("ATHR-002", "User is signed out.Sign in first to get user details");
     }
+
 }
