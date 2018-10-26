@@ -94,4 +94,14 @@ public class UserDao {
     public void deleteQuestion(final QuestionEntity questionEntity) {
         entityManager.remove(questionEntity);
     }
+
+    public UserEntity getUserByQuestionUserId(final Integer userID) {
+
+        try {
+            return entityManager.createNamedQuery("userByUserId", UserEntity.class).setParameter("id", userID).getSingleResult();
+        } catch (NoResultException nre) {
+            return null;
+        }
+    }
+
 }
