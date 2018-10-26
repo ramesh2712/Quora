@@ -95,6 +95,10 @@ public class UserDao {
         entityManager.remove(questionEntity);
     }
 
+    public void deleteUser(final UserEntity userEntity) {
+        entityManager.remove(userEntity);
+    }
+
     public UserEntity getUserByQuestionUserId(final Integer userID) {
 
         try {
