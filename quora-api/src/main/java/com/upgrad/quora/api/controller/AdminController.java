@@ -38,7 +38,7 @@ public class AdminController {
         UserEntity userEntity = deleteBussinessService.deleteUser(authToken,uname);
 
 
-        UserDeleteResponse userDeleteResponse = new UserDeleteResponse().id(userEntity.getUuid()).status("DELETED");
+        UserDeleteResponse userDeleteResponse = new UserDeleteResponse().id(userEntity.getUuid()).status("USER SUCCESSFULLY DELETED");
 
         return new ResponseEntity<UserDeleteResponse>(userDeleteResponse, HttpStatus.OK);
 

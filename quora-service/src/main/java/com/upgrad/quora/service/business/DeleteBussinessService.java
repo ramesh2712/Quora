@@ -35,8 +35,8 @@ public class DeleteBussinessService {
         if (userAuthEntity == null) {
             throw new AuthorizationFailedException("ATHR-001", "User has not signed in");
 
-            //check if user has signed out
-        } else if (userAuthEntity.getLogoutAt()!=null) {
+            //check if user has already signed out
+        } else if (userAuthEntity.getLogoutAt() != null) {
             throw new AuthorizationFailedException("ATHR-002", "User is signed out");
 
             //check if user is admin
