@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import java.util.List;
 
 @Repository
 public class UserDao {
@@ -70,5 +71,10 @@ public class UserDao {
     public QuestionEntity createQuestion(final QuestionEntity questionEntity) {
         entityManager.persist(questionEntity);
         return questionEntity;
+    }
+
+    public List<QuestionEntity> getAllQuestions(final UserEntity user) throws NoResultException {
+
+        return entityManager.createNamedQuery("questionByAccessToken", QuestionEntity.class).setParameter("user", user).getResultList();
     }
 }

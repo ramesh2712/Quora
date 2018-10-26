@@ -1,5 +1,6 @@
 package com.upgrad.quora.api.controller;
 
+import com.upgrad.quora.api.model.QuestionDetailsResponse;
 import com.upgrad.quora.api.model.QuestionRequest;
 import com.upgrad.quora.api.model.QuestionResponse;
 import com.upgrad.quora.service.business.QuestionService;
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -41,5 +44,17 @@ public class QuestionController {
         QuestionResponse questionResponse = new QuestionResponse().id(createdQuestion.getUuid()).status("QUESTION CREATED");
 
         return new ResponseEntity<QuestionResponse>(questionResponse,HttpStatus.CREATED);
+    }
+
+    @RequestMapping(method = RequestMethod.GET , path = "/question/all" , produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<List<QuestionDetailsResponse>> getAllQuestions(@RequestHeader("authorization") final String authorization) throws AuthorizationFailedException {
+
+        List<QuestionEntity> allQuestions = questionService.getAllQuestions(authorization);
+
+        List<QuestionDetailsResponse> detailsResponses = new ArrayList<QuestionDetailsResponse>();
+        for (QuestionEntity object : allQuestions) {
+            detailsResponses.add(new QuestionDetailsResponse().id(object.getUuid()).content(object.getContent()));
+        }
+        return new ResponseEntity<List<QuestionDetailsResponse>>(detailsResponses ,HttpStatus.OK);
     }
 }

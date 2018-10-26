@@ -12,6 +12,11 @@ import java.time.ZonedDateTime;
 
 @Entity
 @Table(name = "question")
+
+@NamedQueries({
+        @NamedQuery(name = "questionByAccessToken" , query = "select q from QuestionEntity q where q.user = :user ")
+})
+
 public class QuestionEntity {
 
     @Id

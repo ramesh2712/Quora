@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.ZonedDateTime;
+import java.util.List;
 
 @Service
 public class QuestionService {
@@ -38,5 +39,23 @@ public class QuestionService {
             return userEntity;
         }
         throw new AuthorizationFailedException("ATHR-002", "User is signed out.Sign in first to post a question");
+    }
+
+    public List<QuestionEntity> getAllQuestions(final String accessToken) throws AuthorizationFailedException {
+        UserAuthEntity userAuthEntity = userDao.getUserAuthToken(accessToken);
+        if (userAuthEntity == null) {
+            throw new AuthorizationFailedException("ATHR-001" ,"User has not signed in");
+        }
+
+        // Check if user logout or not ...
+        ZonedDateTime userLogoutTime = userAuthEntity.getLogoutAt();
+        if (userLogoutTime == null){
+
+            UserEntity userEntity = userAuthEntity.getUser();
+
+            return userDao.getAllQuestions(userEntity);
+        }
+        throw new AuthorizationFailedException("ATHR-002", "User is signed out.Sign in first to get all questions");
+
     }
 }
