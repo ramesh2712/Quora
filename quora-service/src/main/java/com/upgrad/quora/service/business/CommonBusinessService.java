@@ -8,6 +8,8 @@ import com.upgrad.quora.service.exception.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.ZonedDateTime;
+
 @Service
 public class CommonBusinessService {
 
@@ -21,11 +23,17 @@ public class CommonBusinessService {
             throw new AuthorizationFailedException("ATHR-001", "User has not signed in");
         }
 
-        UserEntity userEntity = userDao.getUserByUuid(userUuid);
+        // Check if user logout or not ...
+        ZonedDateTime userLogoutTime = userAuthEntity.getLogoutAt();
+        if (userLogoutTime == null){
 
-        if (userEntity == null) {
-            throw new UserNotFoundException("USR-001", "'User with entered uuid does not exist");
+            UserEntity userEntity = userDao.getUserByUuid(userUuid);
+
+            if (userEntity == null) {
+                throw new UserNotFoundException("USR-001", "'User with entered uuid does not exist");
+            }
+            return userEntity;
         }
-        return userEntity;
+        throw new AuthorizationFailedException("ATHR-002", "User is signed out.Sign in first to get user details");
     }
 }

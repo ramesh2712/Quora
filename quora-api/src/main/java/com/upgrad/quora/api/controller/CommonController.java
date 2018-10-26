@@ -13,8 +13,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping
+@RequestMapping("/")
 public class CommonController {
+
     @Autowired
     private CommonBusinessService commonBusinessService;
 
