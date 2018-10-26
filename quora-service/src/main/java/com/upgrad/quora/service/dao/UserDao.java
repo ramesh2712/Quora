@@ -77,4 +77,17 @@ public class UserDao {
 
         return entityManager.createNamedQuery("questionByAccessToken", QuestionEntity.class).setParameter("user", user).getResultList();
     }
+
+    public QuestionEntity getQuestionByQuestionId(final String questionId) {
+        try {
+             return entityManager.createNamedQuery("questionByUuid", QuestionEntity.class).setParameter("uuid", questionId).getSingleResult();
+
+        } catch (NoResultException nre) {
+            return null;
+        }
+    }
+
+    public void editQuestionContent(final QuestionEntity questionEntity) {
+        entityManager.merge(questionEntity);
+    }
 }
