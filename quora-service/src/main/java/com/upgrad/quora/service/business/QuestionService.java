@@ -98,4 +98,37 @@ public class QuestionService {
         }
         throw new AuthorizationFailedException("ATHR-002", "User is signed out.Sign in first to edit the question");
     }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    public QuestionEntity deleteQuestion(final String accessToken, final String questionId) throws AuthorizationFailedException, InvalidQuestionException {
+
+        // Check for user sign in ...
+        UserAuthEntity userAuthEntity = userDao.getUserAuthToken(accessToken);
+        if (userAuthEntity == null) {
+            throw new AuthorizationFailedException("ATHR-001" ,"User has not signed in");
+        }
+
+        // Check if user logout or not ...
+        ZonedDateTime userLogoutTime = userAuthEntity.getLogoutAt();
+        if (userLogoutTime == null){
+
+            // Check for Question exist in Database ....
+            final UserEntity userEntity = userAuthEntity.getUser();
+            QuestionEntity questionEntity = userDao.getQuestionByQuestionId(questionId);
+            if (questionEntity == null) {
+                throw new InvalidQuestionException("QUES-001" ,"Entered question uuid does not exist");
+            }
+
+            // check of owner of the question .....
+            final UserEntity userOfQuestion = questionEntity.getUser();
+            if (userOfQuestion.getUuid().equals(userEntity.getUuid()) || userEntity.getRole().equals("admin")) {
+
+                userDao.deleteQuestion(questionEntity);
+                return questionEntity;
+            }
+            throw new AuthorizationFailedException("ATHR-003", "Only the question owner or admin can delete the question");
+        }
+        throw new AuthorizationFailedException("ATHR-002", "User is signed out.Sign in first to delete a question");
+
+    }
 }

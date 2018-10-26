@@ -90,4 +90,8 @@ public class UserDao {
     public void editQuestionContent(final QuestionEntity questionEntity) {
         entityManager.merge(questionEntity);
     }
+
+    public void deleteQuestion(final QuestionEntity questionEntity) {
+        entityManager.remove(questionEntity);
+    }
 }
