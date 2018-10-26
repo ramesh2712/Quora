@@ -30,6 +30,7 @@ public class QuestionEntity {
 
     @Column(name = "CONTENT")
     @NotNull
+    @Size(max = 500)
     private String content;
 
 
