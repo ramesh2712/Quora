@@ -23,10 +23,8 @@ public class DeleteBussinessService {
     @Autowired
     UserDao userDao;
 
-    UserEntity userEntity;
-
     @Transactional(propagation = Propagation.REQUIRED)
-    public UserEntity deleteUser(final String authToken, String uname) throws AuthorizationFailedException, UserNotFoundException {
+    public UserEntity deleteUser(final String authToken, String userId) throws AuthorizationFailedException, UserNotFoundException {
 
 
         UserAuthEntity userAuthEntity = userDao.getUserAuthToken(authToken);
@@ -40,22 +38,20 @@ public class DeleteBussinessService {
             throw new AuthorizationFailedException("ATHR-002", "User is signed out");
 
             //check if user is admin
-        } else if (userAuthEntity.getUser().getRole().equalsIgnoreCase("admin")) {
+        } else if (userAuthEntity.getUser().getRole().equalsIgnoreCase("nonadmin")) {
             throw new AuthorizationFailedException("ATHR-003", "Unauthorized Access, Entered user is not an admin");
         }
 
         // check if username to be deleted exits in database
-        else if (userDao.getUserByUserName(uname) == null) {
+        else if (userDao.getUserByUuid(userId) == null) {
 
             throw new UserNotFoundException("USR-001", "User with entered uuid to be deleted does not exist");
 
-        } else {
-
-            //delete user if everything above fails
-            userEntity = userDao.getUserByUserName(uname);
-            userDao.deleteUser(userEntity);
         }
 
+        //delete user if everything above fails
+        final UserEntity userEntity = userDao.getUserByUuid(userId);
+        userDao.deleteUser(userEntity);
         return userEntity;
 
     }
