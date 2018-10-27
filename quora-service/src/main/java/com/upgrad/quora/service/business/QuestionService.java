@@ -155,4 +155,12 @@ public class QuestionService {
         }
         throw new AuthorizationFailedException("ATHR-002", "User is signed out.Sign in first to get all questions posted by a specific user");
     }
+    public  QuestionEntity getQuestionByQuestionId(final String questionId) throws InvalidQuestionException {
+        // Check for Question exist in Database ....
+        QuestionEntity questionEntity = userDao.getQuestionByQuestionId(questionId);
+        if (questionEntity == null) {
+            throw new InvalidQuestionException("QUES-001", "The question entered is invalid");
+        }
+        return questionEntity;
+    }
 }

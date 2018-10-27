@@ -40,5 +40,8 @@ public class RestExceptionHandler {
     public ResponseEntity<ErrorResponse> userNotFoundException(UserNotFoundException exc , WebRequest request) {
         return new ResponseEntity<ErrorResponse>(new ErrorResponse().code(exc.getCode()).message(exc.getErrorMessage()) , HttpStatus.OK);
     }
-
+    @ExceptionHandler(AnswerNotFoundException.class)
+    public ResponseEntity<ErrorResponse> AnswerNotFoundException(AnswerNotFoundException exc , WebRequest request) {
+        return new ResponseEntity<ErrorResponse>(new ErrorResponse().code(exc.getCode()).message(exc.getErrorMessage()) , HttpStatus.OK);
+    }
 }
