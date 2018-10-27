@@ -1,4 +1,4 @@
-/*package com.upgrad.quora.api.controller;
+package com.upgrad.quora.api.controller;
 
 
 import org.junit.Test;
@@ -131,7 +131,7 @@ public class QuestionControllerTest {
     //This test case passes when you try to get all the questions posted by a specific user but the JWT token entered does not exist in the database.
     @Test
     public void getAllQuestionsByUserWithNonExistingAccessToken() throws Exception {
-        mvc.perform(MockMvcRequestBuilders.get("/question/all/database_uuid1").header("authorization", "non_existing_access_token"))
+        mvc.perform(MockMvcRequestBuilders.get("/all/database_uuid1").header("authorization", "non_existing_access_token"))
                 .andExpect(status().isForbidden())
                 .andExpect(MockMvcResultMatchers.jsonPath("code").value("ATHR-001"));
     }
@@ -139,7 +139,7 @@ public class QuestionControllerTest {
     //This test case passes when you try to get all the questions posted by a specific user and the JWT token entered exists in the database but the user corresponding to that JWT token is signed out.
     @Test
     public void getAllQuestionsByUserWithSignedOutUser() throws Exception {
-        mvc.perform(MockMvcRequestBuilders.get("/question/all/database_uuid1").header("authorization", "database_accesstoken3"))
+        mvc.perform(MockMvcRequestBuilders.get("/all/database_uuid1").header("authorization", "database_accesstoken3"))
                 .andExpect(status().isForbidden())
                 .andExpect(MockMvcResultMatchers.jsonPath("code").value("ATHR-002"));
     }
@@ -147,11 +147,10 @@ public class QuestionControllerTest {
     //This test case passes when you try to get all the questions posted by a specific user which does not exist in the database.
     @Test
     public void getAllQuestionsForNonExistingUser() throws Exception {
-        mvc.perform(MockMvcRequestBuilders.get("/question/all/non_existing_user_uuid").header("authorization", "database_accesstoken1"))
+        mvc.perform(MockMvcRequestBuilders.get("/all/non_existing_user_uuid").header("authorization", "database_accesstoken1"))
                 .andExpect(status().isNotFound())
                 .andExpect(MockMvcResultMatchers.jsonPath("code").value("USR-001"));
     }
 
 
 }
-*/
