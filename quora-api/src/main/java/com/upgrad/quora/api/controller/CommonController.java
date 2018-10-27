@@ -34,4 +34,3 @@ public class CommonController {
         return new ResponseEntity<UserDetailsResponse>(userDetailsResponse, HttpStatus.OK);
     }
 }
-//1832ea75-ca07-4c9b-9b43-32064b3dac61
