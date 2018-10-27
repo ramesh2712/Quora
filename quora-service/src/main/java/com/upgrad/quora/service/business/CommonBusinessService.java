@@ -18,23 +18,52 @@ public class CommonBusinessService {
 
     public UserEntity userProfile(final String userUuid, final String accessToken) throws UserNotFoundException, AuthorizationFailedException {
 
+
+        getUser(accessToken);
+        UserEntity userEntityByUuID = userDao.getUserByUuid(userUuid);
+        if (userEntityByUuID == null) {
+            throw new UserNotFoundException("USR-001", "'User with entered uuid does not exist");
+        }
+        return userEntityByUuID;
+
+//        if (userEntity == null) {
+//            throw new UserNotFoundException("USR-001", "'User with entered uuid does not exist");
+//        }
+//
+//        UserAuthEntity userAuthEntity = userDao.getUserAuthToken(accessToken);
+//        if (userAuthEntity == null) {
+//            throw new AuthorizationFailedException("ATHR-001", "User has not signed in");
+//        }
+//
+//        // Check if user logout or not ...
+//        ZonedDateTime userLogoutTime = userAuthEntity.getLogoutAt();
+//        if (userLogoutTime == null){
+//
+//            UserEntity userEntity = userDao.getUserByUuid(userUuid);
+//
+//            if (userEntity == null) {
+//                throw new UserNotFoundException("USR-001", "'User with entered uuid does not exist");
+//            }
+//            return userEntity;
+//        }
+//        throw new AuthorizationFailedException("ATHR-002", "User is signed out.Sign in first to get user details");
+    }
+
+    public UserEntity getUser(final String accessToken) throws AuthorizationFailedException {
+
+        // Check for user sign in ...
         UserAuthEntity userAuthEntity = userDao.getUserAuthToken(accessToken);
         if (userAuthEntity == null) {
             throw new AuthorizationFailedException("ATHR-001", "User has not signed in");
         }
-
         // Check if user logout or not ...
         ZonedDateTime userLogoutTime = userAuthEntity.getLogoutAt();
-        if (userLogoutTime == null){
+        if (userLogoutTime == null) {
 
-            UserEntity userEntity = userDao.getUserByUuid(userUuid);
-
-            if (userEntity == null) {
-                throw new UserNotFoundException("USR-001", "'User with entered uuid does not exist");
-            }
+            final UserEntity userEntity = userAuthEntity.getUser();
             return userEntity;
         }
-        throw new AuthorizationFailedException("ATHR-002", "User is signed out.Sign in first to get user details");
+        throw new AuthorizationFailedException("ATHR-002", "User is signed out.Sign in first to post a question");
     }
 
 }

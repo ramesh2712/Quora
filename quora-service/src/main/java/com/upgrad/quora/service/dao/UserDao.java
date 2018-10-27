@@ -1,5 +1,6 @@
 package com.upgrad.quora.service.dao;
 
+import com.upgrad.quora.service.entity.AnswerEntity;
 import com.upgrad.quora.service.entity.QuestionEntity;
 import com.upgrad.quora.service.entity.UserAuthEntity;
 import com.upgrad.quora.service.entity.UserEntity;
@@ -106,6 +107,32 @@ public class UserDao {
         } catch (NoResultException nre) {
             return null;
         }
+    }
+
+    // Answer ....
+    public AnswerEntity createAnswer(final AnswerEntity answerEntity) {
+        entityManager.persist(answerEntity);
+        return answerEntity;
+    }
+    public AnswerEntity getAnswerByAnswerId(final String answerID) {
+        try {
+            return entityManager.createNamedQuery("answerByUuid", AnswerEntity.class).setParameter("uuid", answerID).getSingleResult();
+
+        } catch (NoResultException nre) {
+            return null;
+        }
+    }
+
+    public void editAnswerContent(final AnswerEntity answerEntity) {
+        entityManager.merge(answerEntity);
+    }
+
+    public void deleteAnswer(final AnswerEntity answerEntity) {
+        entityManager.remove(answerEntity);
+    }
+    public List<AnswerEntity> getAllAnserByQuestionID(final String questionID) throws NoResultException {
+
+        return entityManager.createNamedQuery("getAllAnserByQuestionID", AnswerEntity.class).setParameter("questionID", questionID).getResultList();
     }
 
 }
