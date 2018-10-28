@@ -1,6 +1,7 @@
 package com.upgrad.quora.service.business;
 
 import com.upgrad.quora.service.dao.AnswerDao;
+import com.upgrad.quora.service.dao.QuestionDao;
 import com.upgrad.quora.service.dao.UserDao;
 import com.upgrad.quora.service.entity.AnswerEntity;
 import com.upgrad.quora.service.entity.QuestionEntity;
@@ -25,6 +26,9 @@ public class AnswerService {
 
     @Autowired
     UserDao userDao;
+
+    @Autowired
+    QuestionDao questionDao;
 
     @Transactional(propagation = Propagation.REQUIRED)
     public AnswerEntity createAnswer(final AnswerEntity answerEntity) {
@@ -133,7 +137,7 @@ public class AnswerService {
         ZonedDateTime userLogoutTime = userAuthEntity.getLogoutAt();
         if (userLogoutTime == null) {
 
-            final QuestionEntity questionEntity = userDao.getQuestionByQuestionId(questionId);
+            final QuestionEntity questionEntity = questionDao.getQuestionByQuestionId(questionId);
             if(questionEntity == null) {
 
                 throw new InvalidQuestionException("QUES-001" , "The question with entered uuid whose details are to be seen does not exist");

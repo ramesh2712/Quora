@@ -1,5 +1,6 @@
 package com.upgrad.quora.service.business;
 
+import com.upgrad.quora.service.dao.QuestionDao;
 import com.upgrad.quora.service.dao.UserDao;
 import com.upgrad.quora.service.entity.QuestionEntity;
 import com.upgrad.quora.service.entity.UserAuthEntity;
@@ -22,10 +23,13 @@ public class QuestionService {
     @Autowired
     UserDao userDao;
 
+    @Autowired
+    QuestionDao questionDao;
+
     @Transactional(propagation = Propagation.REQUIRED)
     public QuestionEntity createQuestion(final QuestionEntity questionEntity) {
 
-        return userDao.createQuestion(questionEntity);
+        return questionDao.createQuestion(questionEntity);
     }
 
     public UserEntity getUser(final String accessToken) throws AuthorizationFailedException {
@@ -60,7 +64,7 @@ public class QuestionService {
 
             UserEntity userEntity = userAuthEntity.getUser();
 
-            return userDao.getAllQuestions(userEntity);
+            return questionDao.getAllQuestions(userEntity);
         }
         throw new AuthorizationFailedException("ATHR-002", "User is signed out.Sign in first to get all questions");
 
@@ -81,7 +85,7 @@ public class QuestionService {
 
             // Check for Question exist in Database ....
             UserEntity userEntity = userAuthEntity.getUser();
-            final QuestionEntity questionEntity = userDao.getQuestionByQuestionId(questionId);
+            final QuestionEntity questionEntity = questionDao.getQuestionByQuestionId(questionId);
             if (questionEntity == null) {
                 throw new InvalidQuestionException("QUES-001", "Entered question uuid does not exist");
             }
@@ -91,7 +95,7 @@ public class QuestionService {
             if (userOfQuestion.getUuid() == userEntity.getUuid()) {
 
                 // update content in database ...
-                userDao.editQuestionContent(questionEntity);
+                questionDao.editQuestionContent(questionEntity);
                 questionEntity.setContent(content);
                 return questionEntity;
             }
@@ -115,7 +119,7 @@ public class QuestionService {
 
             // Check for Question exist in Database ....
             final UserEntity userEntity = userAuthEntity.getUser();
-            QuestionEntity questionEntity = userDao.getQuestionByQuestionId(questionId);
+            QuestionEntity questionEntity = questionDao.getQuestionByQuestionId(questionId);
             if (questionEntity == null) {
                 throw new InvalidQuestionException("QUES-001", "Entered question uuid does not exist");
             }
@@ -124,7 +128,8 @@ public class QuestionService {
             final UserEntity userOfQuestion = questionEntity.getUser();
             if (userOfQuestion.getUuid().equals(userEntity.getUuid()) || userEntity.getRole().equals("admin")) {
 
-                userDao.deleteQuestion(questionEntity);
+                // Delete a quesiton...
+                questionDao.deleteQuestion(questionEntity);
                 return questionEntity;
             }
             throw new AuthorizationFailedException("ATHR-003", "Only the question owner or admin can delete the question");
@@ -148,7 +153,7 @@ public class QuestionService {
             final UserEntity userEntity = userDao.getUserByUuid(uuid);
             if(userEntity != null ) {
 
-                return userDao.getAllQuestions(userEntity);
+                return questionDao.getAllQuestions(userEntity);
             }
             throw new UserNotFoundException("USR-001" , "User with entered uuid whose question details are to be seen does not exist");
 
@@ -158,7 +163,7 @@ public class QuestionService {
 
     public  QuestionEntity getQuestionByQuestionId(final String questionId) throws InvalidQuestionException {
         // Check for Question exist in Database ....
-        QuestionEntity questionEntity = userDao.getQuestionByQuestionId(questionId);
+        QuestionEntity questionEntity = questionDao.getQuestionByQuestionId(questionId);
         if (questionEntity == null) {
             throw new InvalidQuestionException("QUES-001", "The question entered is invalid");
         }
