@@ -32,18 +32,16 @@ public class AnswerController {
     @Autowired
     QuestionService questionService;
 
-    @Autowired
-    CommonBusinessService commonBusinessService;
 
     @Autowired
     UserDao userDao;
 
-    @RequestMapping(method = RequestMethod.POST , path = "/question/{questionId}answer/create" , consumes = MediaType.APPLICATION_JSON_UTF8_VALUE , produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(method = RequestMethod.POST , path = "/question/{questionId}/answer/create" , consumes = MediaType.APPLICATION_JSON_UTF8_VALUE , produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<AnswerResponse> createAnswer(final AnswerRequest answerRequest, @PathVariable("questionId") final String questionId,
                                                        @RequestHeader("authorization") final String accessToken) throws AuthorizationFailedException, InvalidQuestionException {
 
 
-        final UserEntity userEntity = commonBusinessService.getUser(accessToken);
+        final UserEntity userEntity = answerService.getUser(accessToken);
         final QuestionEntity questionEntity = questionService.getQuestionByQuestionId(questionId);
         final AnswerEntity answerEntity  = new AnswerEntity();
         answerEntity.setUuid(UUID.randomUUID().toString());

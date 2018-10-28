@@ -32,6 +32,27 @@ public class AnswerService {
         return answerDao.createAnswer(answerEntity);
     }
 
+    public UserEntity getUser(final String accessToken) throws AuthorizationFailedException {
+
+        // Check for user sign in ...
+
+        UserAuthEntity userAuthEntity = userDao.getUserAuthToken(accessToken);
+        if (userAuthEntity == null) {
+            throw new AuthorizationFailedException("ATHR-001", "User has not signed in");
+        }
+
+        // Check if user logout or not ...
+        ZonedDateTime userLogoutTime = userAuthEntity.getLogoutAt();
+        if (userLogoutTime == null) {
+
+            final UserEntity userEntity = userAuthEntity.getUser();
+            return userEntity;
+        }
+        throw new AuthorizationFailedException("ATHR-002", "User is signed out.Sign in first to post an answer");
+
+    }
+
+
     @Transactional(propagation = Propagation.REQUIRED)
     public AnswerEntity editAnswerContent(final String accessToken, final String answerId, final String content) throws AuthorizationFailedException, AnswerNotFoundException {
 
@@ -119,6 +140,6 @@ public class AnswerService {
             }
             return answerDao.getAllAnswerByQuestionID(questionEntity);
         }
-        throw new AuthorizationFailedException("ATHR-003" , "User is signed out.Sign in first to get the answers");
+        throw new AuthorizationFailedException("ATHR-002" , "User is signed out.Sign in first to get the answers");
     }
 }
