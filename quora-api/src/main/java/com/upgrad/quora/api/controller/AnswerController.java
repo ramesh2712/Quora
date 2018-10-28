@@ -4,6 +4,7 @@ import com.upgrad.quora.api.model.*;
 import com.upgrad.quora.service.business.AnswerService;
 import com.upgrad.quora.service.business.CommonBusinessService;
 import com.upgrad.quora.service.business.QuestionService;
+import com.upgrad.quora.service.dao.QuestionDao;
 import com.upgrad.quora.service.dao.UserDao;
 import com.upgrad.quora.service.entity.AnswerEntity;
 import com.upgrad.quora.service.entity.QuestionEntity;
@@ -32,9 +33,8 @@ public class AnswerController {
     @Autowired
     QuestionService questionService;
 
-
     @Autowired
-    UserDao userDao;
+    QuestionDao questionDao;
 
     @RequestMapping(method = RequestMethod.POST , path = "/question/{questionId}/answer/create" , consumes = MediaType.APPLICATION_JSON_UTF8_VALUE , produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<AnswerResponse> createAnswer(final AnswerRequest answerRequest, @PathVariable("questionId") final String questionId,
@@ -87,7 +87,7 @@ public class AnswerController {
                                                                                @RequestHeader("authorization") final String accessToken) throws AuthorizationFailedException, InvalidQuestionException {
 
 
-        final QuestionEntity questionEntity = userDao.getQuestionByQuestionId(questionId);
+        final QuestionEntity questionEntity = questionDao.getQuestionByQuestionId(questionId);
         final List<AnswerEntity> allAnswerListToQuestion = answerService.getAllAnswersToQuestion(accessToken ,questionId);
 
         List<AnswerDetailsResponse> detailsResponses = new ArrayList<AnswerDetailsResponse>();
