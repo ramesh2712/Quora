@@ -63,7 +63,7 @@ public class CommonBusinessService {
             final UserEntity userEntity = userAuthEntity.getUser();
             return userEntity;
         }
-        throw new AuthorizationFailedException("ATHR-002", "User is signed out.Sign in first to post a question");
+        throw new AuthorizationFailedException("ATHR-002", "User is signed out.Sign in first to post an answer");
     }
 
 }

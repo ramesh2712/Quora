@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.ZonedDateTime;
+import java.util.List;
 
 @Service
 public class AnswerService {
@@ -78,6 +79,7 @@ public class AnswerService {
         ZonedDateTime userLogoutTime = userAuthEntity.getLogoutAt();
         if (userLogoutTime == null) {
 
+            // Check for answer UUID ...
             final AnswerEntity answerEntity  = answerDao.getAnswerByAnswerId(answerId);
             if (answerEntity == null) {
                 throw new AnswerNotFoundException("ANS-001", "Entered answer uuid does not exist");
@@ -96,5 +98,27 @@ public class AnswerService {
             throw new AuthorizationFailedException("ATHR-003" , "Only the answer owner or admin can delete the answer");
         }
         throw new AuthorizationFailedException("ATHR-002", "User is signed out.Sign in first to delete an answer");
+    }
+
+    public List<AnswerEntity> getAllAnswersToQuestion(final String accessToken , final String questionId) throws AuthorizationFailedException, InvalidQuestionException {
+
+        // Check for user sign in ...
+        UserAuthEntity userAuthEntity = userDao.getUserAuthToken(accessToken);
+        if (userAuthEntity == null) {
+            throw new AuthorizationFailedException("ATHR-001", "User has not signed in");
+        }
+
+        // Check if user logout or not ...
+        ZonedDateTime userLogoutTime = userAuthEntity.getLogoutAt();
+        if (userLogoutTime == null) {
+
+            final QuestionEntity questionEntity = userDao.getQuestionByQuestionId(questionId);
+            if(questionEntity == null) {
+
+                throw new InvalidQuestionException("QUES-001" , "The question with entered uuid whose details are to be seen does not exist");
+            }
+            return answerDao.getAllAnswerByQuestionID(questionEntity);
+        }
+        throw new AuthorizationFailedException("ATHR-003" , "User is signed out.Sign in first to get the answers");
     }
 }
